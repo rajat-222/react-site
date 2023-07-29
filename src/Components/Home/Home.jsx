@@ -2,6 +2,287 @@ import React from 'react';
 import './Home.css';
 import { Link } from "react-router-dom";
 const Home = () => {
+  const $ = selector => document.querySelector(selector);
+  const $$ = selector => document.querySelectorAll(selector);
+  
+  function lerp(n1, n2, speed) {
+    return (1 - speed) * n1 + speed * n2;
+  }
+  
+  function angle(from, to) {
+    return Math.atan2(
+      to[1] - from[1],
+      to[0] - from[0]
+    );
+  }
+  
+  function distance(from, to) {
+    return Math.sqrt(
+      Math.pow(to[0] - from[0], 2),
+      Math.pow(to[1] - from[1], 2)
+    );
+  }
+  
+  function distNorm(from, to, xMax, yMax) {
+    return Math.sqrt(
+      Math.pow((to[0] - from[0]) / xMax, 2),
+      Math.pow((to[1] - from[1]) / yMax, 2)
+    );
+  }
+  
+  Array.prototype.lerp = function(target, speed) {
+    this.forEach((n, i) => this[i] = lerp(n, target[i], speed));
+  };
+  
+  class Frame {
+    constructor(node) {
+      this.node = node;
+      this.scale = 1;
+      this.maxScale = 1.25;
+      this.rotation = [0, 0, 0];
+      this.translation = [0, 0, 0];
+      this.center = [0, 0];
+      this.target = [
+        0.5 * window.innerWidth,
+        0.5 * window.innerHeight
+      ];
+      this.padding = [
+        0.5 * this.node.clientWidth,
+        0.5 * this.node.clientHeight
+      ];
+      this.focus = false;
+      this.mouseover = false;
+      this.distance = 0;
+      this.node.addEventListener('mousemove', this.hover.bind(this));
+      this.node.addEventListener('mouseleave', this.hover.bind(this));
+      this.setCenter();
+    }
+    setCenter() {
+      let rect = this.node.getBoundingClientRect();
+      this.center[0] = rect.left + this.padding[0];
+      this.center[1] = rect.top + this.padding[1];
+      return this;
+    }
+    setTarget(target) {
+      this.target[0] = target[0];
+      this.target[1] = target[1];
+      return this;
+    }
+    setDistance() {
+      this.distNorm = distNorm(this.center, this.target, window.innerWidth, 0.5 * window.innerHeight);
+      return this;
+    }
+    translate() {
+      this.translation.lerp([
+        0,
+        0,
+        this.mouseover ? 300 : 200 - this.distNorm * 400
+      ], 0.15);
+      return this;
+    }
+    rotate() {
+      let theta = angle(this.center, this.target);
+      this.rotation.lerp([
+        Math.sin(-theta) * 60 * this.distNorm,
+        Math.cos(theta) * 90 * this.distNorm
+      ], 0.15);
+      return this;
+    }
+    update() {
+      this.node.style.transform = `
+        translate3d(${this.translation[0]}px,${this.translation[1]}px,${this.translation[2]}px) 
+        rotateX(${this.rotation[0]}deg) rotateY(${this.rotation[1]}deg)
+      `;
+    }
+    hover(e) {
+      this.mouseover = e.type === 'mousemove';
+    }
+  }
+  
+  class Gallery {
+    constructor() {
+      this.container = $('.gallery');
+      this.center = [
+        0.5 * window.innerWidth,
+        0.5 * window.innerHeight
+      ];
+      this.mouse = this.center.slice(0);
+      this.target = this.mouse.slice(0);
+      this.container.addEventListener('mousemove', this.hover.bind(this));
+      this.container.addEventListener('mouseleave', this.hover.bind(this));
+      window.addEventListener('resize', this.resize.bind(this));
+      this.initFrames();
+      this.update();
+    }
+    initFrames() {
+      this.frames = [];
+      $$('.frame').forEach(node => this.frames.push(new Frame(node)));
+    }
+    resize() {
+      this.center = [
+        0.5 * window.innerWidth,
+        0.5 * window.innerHeight
+      ]
+      this.frames.forEach(frame => frame.setCenter());
+    }
+    hover(e) {
+      this.mouseover = e.type === 'mousemove';
+      this.target[0] = e.clientX;
+      this.target[1] = e.clientY;
+    }
+    update() {
+      this.mouse.lerp(
+        this.mouseover ? this.target : this.center, 
+        0.125
+      );
+      this.frames.forEach(frame => {
+        frame.setTarget(this.mouse)
+          .setDistance()
+          .translate()
+          .rotate()
+          .update();
+      });
+      this.container.style.perspectiveOrigin = `${this.mouse[0]}px 50%`;
+      window.requestAnimationFrame(this.update.bind(this));
+    }
+  }
+  
+  const gallery = new Gallery();
+
+  ;(function () {
+    let card  = document.getElementsByClassName('card')[0],
+        moved = 0,
+        interval;
+
+    if (!card) return;
+    
+    card.addEventListener('click', function (event) {
+        clearInterval(interval);
+        card.style.transform = '';
+        
+        // Do not flip the card if the user is trying to
+        // tap a link.
+        if (event.target.nodeName === 'A') {
+            return;
+        }
+        
+        let cName   = card.getAttribute('data-toggle-class');
+        let toggled = card.classList.contains(cName);
+        card.classList[toggled ? 'remove' : 'add'](cName);
+    });
+    
+    interval = setInterval(function () {
+        moved = moved ? 0 : 10;
+        card.style.transform = 'translateY(' + moved + 'px)';
+    }, 1500);
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const elts = {
+	text1: document.getElementById("text1"),
+	text2: document.getElementById("text2")
+};
+
+// The strings to morph between. You can change these to anything you want!
+const texts = [
+	"About",
+	"Microsoft",
+	"Technical",
+	"Community",
+
+];
+
+// Controls the speed of morphing.
+const morphTime = 1;
+const cooldownTime = 0.25;
+
+let textIndex = texts.length - 1;
+let time = new Date();
+let morph = 0;
+let cooldown = cooldownTime;
+
+elts.text1.textContent = texts[textIndex % texts.length];
+elts.text2.textContent = texts[(textIndex + 1) % texts.length];
+
+function doMorph() {
+	morph -= cooldown;
+	cooldown = 0;
+	
+	let fraction = morph / morphTime;
+	
+	if (fraction > 1) {
+		cooldown = cooldownTime;
+		fraction = 1;
+	}
+	
+	setMorph(fraction);
+}
+
+// A lot of the magic happens here, this is what applies the blur filter to the text.
+function setMorph(fraction) {
+	// fraction = Math.cos(fraction * Math.PI) / -2 + .5;
+	
+	elts.text2.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
+	elts.text2.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
+	
+	fraction = 1 - fraction;
+	elts.text1.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
+	elts.text1.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
+	
+	elts.text1.textContent = texts[textIndex % texts.length];
+	elts.text2.textContent = texts[(textIndex + 1) % texts.length];
+}
+
+function doCooldown() {
+	morph = 0;
+	
+	elts.text2.style.filter = "";
+	elts.text2.style.opacity = "100%";
+	
+	elts.text1.style.filter = "";
+	elts.text1.style.opacity = "0%";
+}
+
+// Animation loop, which is called every frame.
+function animate() {
+	requestAnimationFrame(animate);
+	
+	let newTime = new Date();
+	let shouldIncrementIndex = cooldown > 0;
+	let dt = (newTime - time) / 1000;
+	time = newTime;
+	
+	cooldown -= dt;
+	
+	if (cooldown <= 0) {
+		if (shouldIncrementIndex) {
+			textIndex++;
+		}
+		
+		doMorph();
+	} else {
+		doCooldown();
+	}
+}
+
+// Start the animation.
+animate();
+
+  
+
   return (
     <>
         <section className="container section-1">
