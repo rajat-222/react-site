@@ -1,4 +1,5 @@
 import './App.css';
+import Footer from './Components/Footer/Footer';
 import Home from './Components/Home/Home';
 import Navabar from './Components/Navbar/Navabar';
 // import { Link } from 'react-router-dom';
@@ -12,6 +13,7 @@ function App() {
           <Routes>
           <Route path='/' exact element={<Home/>}/>
           </Routes>
+          <Footer/>
           
     </Router>
       
