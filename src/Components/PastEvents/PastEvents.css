@@ -1,0 +1,96 @@
+.events-container {
+  width: 100%;
+  height: 100vh;
+  background: url("./Assets/past_full_bg.png");
+  background-size: cover;
+}
+
+.events-heading {
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 80px;
+}
+
+.events-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 295px;
+}
+
+.gallery-container {
+  position: relative;
+  height: 50vh;
+  width: 200vh;
+  overflow: hidden;
+}
+
+.gallery {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  width: 100vw;
+  height: 200px;
+  perspective: 800px;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  transform: translateY(-50%);
+}
+
+.frame {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  border-radius: 4px;
+  position: relative;
+  height: 300px;
+  width: 200px;
+  background: white;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  cursor: pointer;
+  overflow: hidden;
+  background: #6197fc;
+}
+.frame .image {
+  display: block;
+  position: relative;
+  height: auto;
+  width: 90%;
+  height: 60%;
+  pointer-events: none;
+}
+
+.frame .info {
+  color: rgb(0, 0, 0);
+  font-weight: 500;
+  font-size: 25px;
+  text-align: center;
+}
+
+.events-button {
+  margin-top: 80px;
+  text-transform: uppercase;
+  width: 280px;
+  height: 80px;
+  font-weight: 700;
+  font-size: 22px;
+  border-radius: 50px;
+  background: #cfe6ff;
+  border: 3px solid black;
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+    border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.events-button:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  border-color: black;
+  box-shadow: 0 0px 20px #cfe6ff;
+}

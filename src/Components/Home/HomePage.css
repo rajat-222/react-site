@@ -251,12 +251,12 @@
 
 @media (min-width: 700px) and (max-width: 800px) {
   .content-container {
-    width: 100%;
+    /* width: 100%; */
     margin: 0 30px;
   }
 
   .mtc-heading {
-    font-size: 78px;
+    font-size: 72px;
     /* text-align: center; */
   }
   .heading-1 {
@@ -266,6 +266,6 @@
     margin: 0;
   }
   #page-logo img {
-    width: 300px;
+    width: 200px;
   }
 }
