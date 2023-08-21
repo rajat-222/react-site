@@ -1,56 +1,55 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
-import './Footer.css';
+import React from "react";
+import "./Footer.css";
+import mtclogo from "./assets/logo_dark.png";
+import instagram from "./assets/instagram.svg";
+import linkedin from "./assets/linkedin.svg";
+import youtube from "./assets/youtube.svg";
 
-function Footer() {
+const Footer = () => {
+  const logos = [instagram, linkedin, youtube];
+
   return (
-    <>
-       <footer>
-      <div className="row">
-        <div className="col">
-          <img src="logo_dark.png" alt="" className="logo" />
-            <p>Technology is making people's lives easier.
-                We, here at MTC are, constantly Innovating, Inventing and Improvising.</p>
+    <footer>
+      <div className="footer">
+        <div className="footer-logo">
+          <img src={mtclogo} alt="logo" />
         </div>
-      
-      
 
-         
-          <div className="col">
-            <h3>CONTACT US <div className="underline"><span></span></div></h3>
-            <p>UPES Bidholi,</p>
-            <p>Dehradun 248007</p>
-            <p>Uttarakhand</p>
-            <p>Phone: +91-99108 10462</p>
-           <p className="emailid"> Email: upesmtc@gmail.com</p>
+        <div className="middle">
+          <div className="about-us">
+            <h3>About</h3>
+            <p>
+              Technology is making people's lives easier. We, here at MTC are,
+              constantly Innovating, Inventing and Improvising.
+            </p>
           </div>
-          <div className="col">
-              <h3>LINKS<div className="underline"><span></span></div></h3>
+          <div className="contact-us">
+            <h3>Contact Us</h3>
+            <p>
+              UPES Bidholi, Dehradun 248007 <br />
+              <b>Phone:</b> +91-9910810462 <br />
+              <b>Mail:</b> upesmtc@gmail.com
+            </p>
+          </div>
+        </div>
 
-              <ul>
-                <li><Link to="">Home</Link></li>
-                <li><Link to="">About us</Link></li>
-                <li><Link to="">Contact</Link></li>
-                <li><Link to="">Team</Link></li>
-            </ul>
+        <div className="connect-with-us">
+          <h3>Connect With Us</h3>
+          <div className="social-logos">
+            {logos.map((logo) => (
+              <img src={logo} alt={logo} key={logo} />
+            ))}
           </div>
-          <div className="col">
-            <h3>SOCIALS <div className="underline"><span></span></div></h3>
-          
-          <div className="social-links">
-          <p className="no"> <Link to="https://www.facebook.com/upesmtc/?epa=SEARCH_BOX"><i className="fa-brands fa-facebook"></i></Link> </p>
-           <p className="no"> <Link to="https://www.instagram.com/upesmtc/"><i className="fa-brands fa-instagram"/></Link>  </p>
-            <p className="no"> <Link to="https://www.linkedin.com/company/upesmtc/"><i className="fa-brands fa-linkedin-in"/></Link>   </p>
-                    </div>
-          </div>          
+        </div>
       </div>
-        
-      <hr/>
-      <p className="copy">COPYRIGHT © MICROSOFT TECHNICAL COMMUNITY. ALL RIGHTS RESERVED    </p>
-      <hr/>
-    </footer>
-    </>
-  )
-}
 
-export default Footer
+      <div className="copyright">
+        <div>
+          <p>COPYRIGHT &#169; 2023. MICROSOFT TECHNICAL COMMUNITY.</p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
