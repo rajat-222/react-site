@@ -74,7 +74,7 @@
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 900px) and (min-width: 800px) {
   .sponsor-heading {
     font-size: 60px;
     text-align: center;

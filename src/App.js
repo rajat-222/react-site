@@ -19,7 +19,7 @@ function App() {
               <>
                 <HomePage />
                 <AboutPage />
-                <PastEvents />
+                {/* <PastEvents /> */}
                 <Sponsors />
               </>
             }
