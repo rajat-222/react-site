@@ -22,16 +22,16 @@ const Navabar = () => {
           </div>
 
           <div className="item-container">
-            <Link className="nav-link nav-line" to="/">
+            <Link className="nav-link nav-line" to='/'>
               home
             </Link>
-            <Link className="nav-link nav-line" to="/">
+            <Link className="nav-link nav-line" to='/'>
               team
             </Link>
-            <Link className="nav-link nav-line" to="/">
+            <Link className="nav-link nav-line" to='/'>
               gallery
             </Link>
-            <Link className="nav-link nav-line" to="/">
+            <Link className="nav-link nav-line" to='/'>
               get in touch
             </Link>
             <button className="login-button">login</button>

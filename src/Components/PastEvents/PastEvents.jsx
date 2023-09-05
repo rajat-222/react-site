@@ -152,14 +152,14 @@ function PastEvents() {
                 <div className="info">Codivent</div>
               </div>
               <div className="frame">
-                <img class="image" src={require("./Assets/3.png")} />
+                <img className="image" src={require("./Assets/3.png")} />
                 <br />
                 <div className="info">
                   Qurantime <br /> Programmer
                 </div>
               </div>
               <div className="frame">
-                <img class="image" src={require("./Assets/4.png")} />
+                <img className="image" src={require("./Assets/4.png")} />
                 <br />
                 <div className="info">Web-Portfolio</div>
               </div>
